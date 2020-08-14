@@ -1,0 +1,7 @@
+@import "../../../VAADIN/themes/base/fonts/fonts.scss";
+
+@mixin fontawesome5 {
+	@include v-font(FontAwesome5, "../../fontawesome5/webfonts/fa-solid-900");
+}
+
+@include fontawesome5;
