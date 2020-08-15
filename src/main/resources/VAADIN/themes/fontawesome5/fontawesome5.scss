@@ -2,6 +2,8 @@
 
 @mixin fontawesome5 {
 	@include v-font(FontAwesome5, "../../fontawesome5/webfonts/fa-solid-900");
+	@include v-font(FontAwesome5Regular, "../../fontawesome5/webfonts/fa-regular-400");
+	@include v-font(FontAwesome5Brands, "../../fontawesome5/webfonts/fa-brands-400");
 }
 
 @include fontawesome5;

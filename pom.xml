@@ -28,24 +28,15 @@
 		<Vaadin-Addon>${project.artifactId}-${project.version}.jar</Vaadin-Addon>
 	</properties>
 
-    <!--
 	<organization>
-		<name>My Name</name>
-		<url>https://github.com/mygithubaccount/MyComponent/</url>
+		<name>Enerccio</name>
+		<url>https://github.com/Enerccio/vaadin-fontawesome5</url>
 	</organization>
-
-	<scm>
-		<url>https://github.com/mygithubaccount/MyComponent</url>
-		<connection>scm:git:git://github.com/mygithubaccount/MyComponent.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:/mygithubaccount/${componentClassName}.git</developerConnection>
-		<tag>MyComponent add-on for Vaadin</tag>
-	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/mygithubaccount/MyComponent/issues</url>
+		<url>https://github.com/Enerccio/vaadin-fontawesome5/issues</url>
 	</issueManagement>
-    -->
 
 	<licenses>
 		<license>
@@ -106,7 +97,7 @@
 							<!-- Package format version - do not change -->
 							<Vaadin-Package-Version>1</Vaadin-Package-Version>
 							<Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
-							<Vaadin-Widgetsets>com.github.enerccio.vaadin.fontawesome.WidgetSet</Vaadin-Widgetsets>
+							<Vaadin-Widgetsets>com.github.enerccio.vaadin.fontawesome.widgetset</Vaadin-Widgetsets>
 						</manifestEntries>
 					</archive>
 				</configuration>

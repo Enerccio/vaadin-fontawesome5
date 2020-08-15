@@ -3,7 +3,7 @@ package com.github.enerccio.vaadin.fontawesome;
 import com.vaadin.server.FontIcon;
 import com.vaadin.server.GenericFontIcon;
 
-public enum FontAwesome implements FontIcon {
+public enum FontAwesome implements FontAwesomeBase {
 	BICYCLE("bicycle", 0xf206),
 	CHURCH("church", 0xf51d),
 	BOOK_READER("book-reader", 0xf5da),
@@ -1014,14 +1014,6 @@ public enum FontAwesome implements FontIcon {
 		this.clazz = clazz;
 	}
 
-	public String getClazz() {
-		return clazz;
-	}
-
-	public FontAwesomeLabel getLabel() {
-		return new FontAwesomeLabel(this);
-	}
-
 	@Override
 	public String getMIMEType() {
 		throw new UnsupportedOperationException(FontIcon.class.getSimpleName()
@@ -1045,5 +1037,10 @@ public enum FontAwesome implements FontIcon {
 
 	public String getHtml(String fontFamily) {
 		return GenericFontIcon.getHtml(fontFamily, codepoint);
+	}
+
+	@Override
+	public String getIconClass() {
+		return clazz;
 	}
 }

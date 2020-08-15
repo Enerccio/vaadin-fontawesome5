@@ -10,29 +10,58 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class GenerateEnum {
 
-	private static final String SOURCE = "https://fontawesome.com/cheatsheet/free/solid";
-	private static final String ENUM_FILE = "fontawesome-addon/src/main/java/com/github/enerccio/vaadin/fontawesome/FontAwesome.java";
+	private static class SourceMap {
+		private String srcUrl;
+		private String srcFile;
+		private String element;
+	}
+
+	private static List<SourceMap> sources = new ArrayList<>();
+	static {
+		SourceMap fa = new SourceMap();
+		fa.srcUrl = "https://fontawesome.com/cheatsheet/free/solid";
+		fa.srcFile = "fontawesome-addon/src/main/java/com/github/enerccio/vaadin/fontawesome/FontAwesome.java";
+		fa.element = "solid";
+		sources.add(fa);
+
+		fa = new SourceMap();
+		fa.srcUrl = "https://fontawesome.com/cheatsheet/free/regular";
+		fa.srcFile = "fontawesome-addon/src/main/java/com/github/enerccio/vaadin/fontawesome/FontAwesomeRegular.java";
+		fa.element = "regular";
+		sources.add(fa);
+
+		fa = new SourceMap();
+		fa.srcUrl = "https://fontawesome.com/cheatsheet/free/brands";
+		fa.srcFile = "fontawesome-addon/src/main/java/com/github/enerccio/vaadin/fontawesome/FontAwesomeBrands.java";
+		fa.element = "brands";
+		sources.add(fa);
+	}
+
 	private static final String ENUM_ENTRY_REGEX = "\\t[A-Z0-9_]+\\(\\\"fa-.+\\),";
 	
 	public static void main(String[] args) {
-			writeFile(getIcons());
-			System.out.println("Done.");
+		for (SourceMap sa : sources) {
+			writeFile(getIcons(sa.srcUrl, sa.element), sa.srcFile);
+		}
+		System.out.println("Done.");
 	}
 	
-	private static Map<String, String> getIcons() {
+	private static Map<String, String> getIcons(String sourceUrl, String element) {
 		Map<String, String> icons = new LinkedHashMap<String, String>();
 		try {
 			WebClient webClient = new WebClient(BrowserVersion.FIREFOX);
 			webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 			webClient.getOptions().setThrowExceptionOnScriptError(false);
 			webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-			HtmlPage page = webClient.getPage(SOURCE);
+			HtmlPage page = webClient.getPage(sourceUrl);
 			JavaScriptJobManager manager = page.getEnclosingWindow().getJobManager();
 			while (manager.getJobCount() > 1) {
 				Thread.sleep(1000);
@@ -40,7 +69,7 @@ public class GenerateEnum {
 
 			Document html = Jsoup.parse(page.asXml());
 
-			Element cheatSheet = html.getElementById("solid");
+			Element cheatSheet = html.getElementById(element);
 
 			// Loop through icons, get class and hex, add to map
 			String cssClass, hex;
@@ -64,10 +93,10 @@ public class GenerateEnum {
 		return icons;
 	}
 	
-	private static void writeFile(Map<String, String> icons) {
-		System.out.println("Updating " + ENUM_FILE + "....");
-		File infile = new File(ENUM_FILE);
-		File outfile = new File(ENUM_FILE + ".tmp");
+	private static void writeFile(Map<String, String> icons, String enumFile) {
+		System.out.println("Updating " + enumFile + "....");
+		File infile = new File(enumFile);
+		File outfile = new File(enumFile + ".tmp");
 		BufferedReader reader = null;
 		BufferedWriter writer = null;
 		try {
